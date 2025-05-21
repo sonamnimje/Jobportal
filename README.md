@@ -1,28 +1,53 @@
 # Job Portal Website
 
-A modern job portal website built with Flask that allows users to post jobs, search for jobs, and apply for positions.
+A modern, responsive job portal website built with Flask that connects employers with job seekers. The platform allows employers to post job listings and manage applications, while job seekers can search for jobs, apply to positions, and manage their applications.
 
 ## Features
 
-- User authentication (signup, login, logout)
-- Job posting and management
-- Job search and filtering
-- Job applications
-- User profiles
-- Admin dashboard
+### For Job Seekers
+- User registration and authentication
+- Browse and search jobs by title, location, and category
+- Apply to jobs directly through the platform
+- View job details including salary ranges in INR
+- Modern and responsive UI with card-based job listings
+
+### For Employers
+- Employer registration and authentication
+- Post job listings with detailed requirements
+- Manage job postings (edit, delete, deactivate)
+- View and manage job applications
+- Company profile management
+
+### Technical Features
+- Secure user authentication with Flask-Login
+- Database management with Flask-SQLAlchemy
+- Form handling with Flask-WTF
+- Modern UI with Bootstrap 5
+- Responsive design for all devices
+- Clean and organized code structure
+
+## Tech Stack
+
+- Backend: Flask (Python)
+- Database: SQLite
+- Frontend: HTML5, CSS3, Bootstrap 5
+- Forms: Flask-WTF
+- Authentication: Flask-Login
+- Database ORM: Flask-SQLAlchemy
+- Migrations: Flask-Migrate
 
 ## Setup Instructions
 
-1. Create a virtual environment:
+1. Clone the repository:
 ```bash
-python -m venv venv
+git clone https://github.com/yourusername/jobportal.git
+cd jobportal
 ```
 
-2. Activate the virtual environment:
-- Windows:
+2. Create and activate virtual environment:
 ```bash
-venv\Scripts\activate
-```
+python -m venv venv
+.\venv\Scripts\activate  # Windows
 - Unix/MacOS:
 ```bash
 source venv/bin/activate
