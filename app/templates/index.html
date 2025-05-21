@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>Find Your Dream Job</h1>
+        <p class="lead">Browse through thousands of job listings and find the perfect opportunity for your career.</p>
+    </div>
+    <div class="col-md-4 text-end">
+        {% if current_user.is_authenticated and current_user.is_employer %}
+            <a href="{{ url_for('jobs.post_job') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Post a Job
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Search Filters</h5>
+                <form action="{{ url_for('main.search') }}" method="get">
+                    <div class="mb-3">
+                        <label for="q" class="form-label">Keywords</label>
+                        <input type="text" class="form-control" id="q" name="q" placeholder="Job title or keywords">
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" placeholder="City or remote">
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Job Type</label>
+                        <select class="form-select" id="type" name="type">
+                            <option value="">All Types</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <h2 class="mb-4">Latest Job Listings</h2>
+        {% if jobs.items %}
+            {% for job in jobs.items %}
+                <div class="card job-card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ job.employer.company_name }}</h6>
+                        <p class="card-text">
+                            <i class="bi bi-geo-alt"></i> {{ job.location }} |
+                            <i class="bi bi-briefcase"></i> {{ job.job_type }} |
+                            <i class="bi bi-currency-rupee"></i> {{ job.salary_range }}
+                        </p>
+                        <p class="card-text">{{ job.description[:200] }}...</p>
+                        <a href="{{ url_for('jobs.view_job', job_id=job.id) }}" class="btn btn-outline-primary">View Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+            
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if jobs.has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('main.index', page=jobs.prev_num) }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for page_num in jobs.iter_pages() %}
+                        {% if page_num %}
+                            <li class="page-item {% if page_num == jobs.page %}active{% endif %}">
+                                <a class="page-link" href="{{ url_for('main.index', page=page_num) }}">{{ page_num }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if jobs.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('main.index', page=jobs.next_num) }}">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% else %}
+            <div class="alert alert-info">
+                No jobs found. Check back later for new opportunities!
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
